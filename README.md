@@ -65,26 +65,20 @@ Now browse to the app at `http://localhost:9000/index.html`.
 ```
 app/                    --> all of the source files for the application
   app.css               --> default stylesheet
-  view1/                --> the view1 view template and logic
-    view1.html            --> the partial template
-    view1.js              --> the controller logic
-    view1_test.js         --> tests of the controller
-  view2/                --> the view2 view template and logic
-    view2.html            --> the partial template
-    view2.js              --> the controller logic
-    view2_test.js         --> tests of the controller
+  assets/               --> contains all images, sprite images
+  mocks/                --> mock files
+  directives/           --> store all reusable directives
+  modules/              --> list all the modules
+    shoppingCart/                --> the shoppingCart view template and logic
+      shoppingCart.html            --> the partial template
+      shoppingCart.js              --> the controller logic
+      shoppingCart_test.js         --> tests of the controller
   app.js                --> main application module
   index.html            --> app layout file (the main html template file of the app)
-  index-async.html      --> just like index.html, but loads js files asynchronously
 karma.conf.js         --> config file for running unit tests with Karma
-e2e-tests/            --> end-to-end tests
-  protractor-conf.js    --> Protractor config file
-  scenarios.js          --> end-to-end scenarios to be run by Protractor
 ```
 
 ## Testing
-
-There are two kinds of tests in the shoppingcart application: Unit tests and End to End tests.
 
 ### Running Unit Tests
 

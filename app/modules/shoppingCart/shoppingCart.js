@@ -5,7 +5,7 @@
         .module('myApp.shoppingCart', ['ngRoute'])
         .config(['$routeProvider', function($routeProvider) {
           $routeProvider.when('/shoppingCart', {
-            templateUrl: 'shoppingCart/shoppingCart.html',
+            templateUrl: 'modules/shoppingCart/shoppingCart.html',
             controller: 'shoppingCartCtrl'
           });
         }])
@@ -25,9 +25,10 @@
         }
 
         function loadItems() {
+            // Get data from
             $http({
               method: 'GET',
-              url: 'assets/cart.json'
+              url: 'mocks/cart.json'
             }).then(function successCallback(response) {
                     // this callback will be called asynchronously
                     // when the response is available
@@ -37,6 +38,7 @@
 
                     // Update Cart Total as Items are added into basket
                     $scope.updateCartTotal(p_quantity, index);
+                    // Initialize discounted price on view
                     $scope.discountedPrice();
               }, function errorCallback(response) {
                     // called asynchronously if an error occurs
@@ -44,12 +46,21 @@
               });
         }
 
+        /**
+         * @function getCartTotalCount
+         * @description return the total number of cart products count
+         */
         $scope.getCartTotalCount = function() {
             if($scope.productsInCart) {
                  return $scope.productsInCart.length;
             }
         }
 
+        /**
+         * @function removeItemFromCart
+         * @param index of current product
+         * @description remove product from cart and update productCart model
+         */
         $scope.removeItemFromCart = function(index) {
             var currentList = $scope.productsInCart;
             currentList.splice( index, 1 );
@@ -59,6 +70,12 @@
              $scope.updateCartTotal();
         };
 
+        /**
+         * @function updateCartTotal
+         * @param p_quantiry
+         * @param index
+         * @description update cart total on updating quantiry of products
+         */
         $scope.updateCartTotal = function(p_quantity, index) {
             if ($scope.productsInCart && index && $scope.productsInCart.length > 0) {
                 var currentList = $scope.productsInCart;
@@ -74,13 +91,23 @@
             }
         }
 
+        /**
+         * @function discountedPrice
+         * @description calculate discounts based on number of products in cart
+         * If cart have 3 itmes then discount is 5%
+         * If cart have inbetween 4 and 10 itmes then discount is 10%
+         * If cart have more then 10 itmes then discount is 25%
+         */
         $scope.discountedPrice = function() {
             if($scope.totalQty > 0) {
                 if($scope.totalQty === 3) {
+                    // If cart have 3 itmes then discount is 5%
                     return calculateDiscount(5);
                 } else if ($scope.totalQty > 3 && $scope.totalQty < 10) {
+                    // If cart have inbetween 4 and 10 itmes then discount is 10%
                     return calculateDiscount(10);
                 } else if ($scope.totalQty >= 10) {
+                    // If cart have more then 10 itmes then discount is 25%
                     return calculateDiscount(25);
                 } else {
                     return 0;
@@ -88,6 +115,11 @@
             }
         }
 
+        /**
+         * @function calculateDiscount
+         * @param percentage
+         * @description calculate dicount on cart total
+         */
         function calculateDiscount(percentage) {
             return -($scope.getCartTotal * percentage / 100).toFixed(2)
         }
