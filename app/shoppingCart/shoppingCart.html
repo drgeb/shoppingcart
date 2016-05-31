@@ -1,0 +1,137 @@
+<header>
+    <h1 class="text-uppercase page-heading">Your Shopping Bag</h1>
+</header>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="product-list">
+            <table class="table table-hover">
+                <thead>
+
+                    <!-- cart header -->
+                    <tr>
+                        <th>{{getCartTotalCount()}} Items</th>
+                        <th class="text-center">Size</th>
+                        <th class="text-center">Qty</th>
+                        <th class="text-right">Price</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+
+                    <!-- cart items -->
+                    <tr ng-repeat="product in productsInCart track by $index">
+                        <td class="col-xs-4 col-md-6">
+                            <div class="media">
+                                <a class="pull-left" href="#">
+                                    <!-- for accessibility point of view added alt tag as product name -->
+                                    <img class="media-object" ng-src="../assets/T{{product.p_id}}.jpg" alt="{{product.p_name}}">
+                                </a>
+                                <div class="media-body">
+                                    <h5 class="product-heading text-uppercase">{{product.p_name}}</h5>
+                                    <h5 class="media-heading"> Style #: <spna class="text-uppercase">{{product.p_style}}</spna></h5>
+                                    <span>Color: </span><span class="text-capitalize">{{product.p_selected_color.name}}</span>
+                                </div>
+                                <div class="media-action">
+                                    <span><a data-toggle="modal" data-target="#myModal{{product.p_id}}">Edit</a></span> | <span><a ng-click="removeItemFromCart($index)">Remove</a></span> | <span><a href="#">Save for later</a></span>
+                                </div>
+                            </div>
+                            <!-- Modal box -->
+                            <div class="modal fade" aria-labelledby="Edit Product" id="myModal{{product.p_id}}" tabindex="-1" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <h4 class="text-center">{{product.p_name}}</h4>
+                                                    <p class="price text-center">{{product.p_originalprice * p_quantity | currency}}</p>
+                                                        <form class="model-form">
+                                                            <div class="col-xs-6">
+                                                            <select class="form-control">
+                                                              <option ng-repeat= "size in product.p_available_options.sizes" value="{{size.code}}">{{size.name}}</option>
+                                                            </select>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                            <input type="number" class="form-control" ng-change="updateCartTotal(p_quantity, $index+1)" ng-model="p_quantity" value="{{product.p_quantity}}" min="0">
+                                                            </div>
+                                                        </form>
+                                                    <div class="form-edit-model col-xs-8 col-xs-offset-2">
+                                                    <button data-dismiss="modal" aria-label="Close" class="btn btn-block btn-primary text-center">Edit</button>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <p class="text-center"><a href="#" >See product details</a></p>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <img class="media-object" ng-src="../assets/T{{product.p_id}}.jpg" alt="{{product.p_name}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /modal-box -->
+                        </td>
+                        <td class="col-xs-1 text-center text-uppercase"><strong>{{product.p_selected_size.code}}</strong></td>
+                        <td class="col-xs-2 product-qty">
+                            <input type="number" class="form-control" ng-change="updateCartTotal(p_quantity, $index+1)" ng-model="p_quantity" value="{{product.p_quantity}}" min="0">
+                        </td>
+                        <td class="col-xs-1 col-md-1 text-right product-price">
+                            <p ng-if = "product.p_originalprice > product.p_price"><s>{{product.p_originalprice * p_quantity | currency}}</s></p>
+                            <p ng-model="getCartTotal">{{product.p_price * p_quantity | currency}}</p>
+                        </td>
+                    </tr>
+                    <!-- end cart items -->
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <h3>Need help? or have some question</h3>
+        <p>Some text Some text Some text Some text Some text</p>
+        <div><a href="#" class="text-underline"><u>Chat with one of our stttylists</u></a></div>
+        <div><a href="#" class="text-underline"><u>See return and exchange policy</u></a></div>
+    </div>
+    <div class="col-sm-7 col-sm-offset-1">
+        <div class="row">
+            <div class="col-sm-12">
+                <form class="form-inline form-discount">
+                    <div class="form-group">
+                        <label for="exampleInputName2" class="text-uppercase">Enter promotion code or gift card</label>
+                        <input type="text" class="form-control" id="exampleInputName2">
+                        <button type="submit" class="btn btn-default">Apply</button>
+                    </div>
+                </form>
+                <table class="table subtotal-info">
+                    <tbody>
+                        <tr>
+                            <td class="col-sm-10 text-uppercase">Subtotal</td>
+                            <td class="col-sm-2">{{getCartTotal | currency}}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-uppercase">Promotion code <span></span> applied = {{getCartTotalCount()}} Items</td>
+                            <td>{{discountedPrice() | currency}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-uppercase">Estimated Shipping </span><p>You qualify for free shipping because your order is over $50</p></td>
+                            <td>FREE</td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-uppercase">Estimated total </span><p>You will be applied during checkout</p></td>
+                            <td>{{getCartTotal + discountedPrice() | currency}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-4">
+                <a href="#" class="text-uppercase"><u>Continue Shopping</u></a>
+                <button class="btn btn-primary btn-checkout pull-right">Checkout</button>
+            </div>
+        </div>
+    </div>
+</div>
