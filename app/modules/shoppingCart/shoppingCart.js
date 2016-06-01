@@ -121,6 +121,7 @@
          * @description calculate dicount on cart total
          */
         function calculateDiscount(percentage) {
+            $scope.percentageDiscount = percentage;
             return -($scope.getCartTotal * percentage / 100).toFixed(2)
         }
 

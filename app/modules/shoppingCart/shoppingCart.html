@@ -36,6 +36,7 @@
                                 </div>
                             </div>
                             <!-- Modal box -->
+                            <!-- Possible Enhacement - We can crete Modal directive  for e.g <product-model> </product-model> -->
                             <div class="modal fade" aria-labelledby="Edit Product" id="myModal{{product.p_id}}" tabindex="-1" role="dialog">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -50,7 +51,7 @@
                                                         <form class="model-form">
                                                             <div class="col-xs-6">
                                                             <select class="form-control">
-                                                              <option ng-repeat= "size in product.p_available_options.sizes" value="{{size.code}}">{{size.name}}</option>
+                                                              <option ng-repeat= "size in product.p_available_options.sizes" ng-model="product.p_selected_size.code" value="{{size.code}}">{{size.name}}</option>
                                                             </select>
                                                             </div>
                                                             <div class="col-xs-6">
@@ -112,7 +113,7 @@
                             <td class="col-sm-2">{{getCartTotal | currency}}</td>
                         </tr>
                         <tr>
-                            <td class="text-uppercase">Promotion code <span></span> applied = {{getCartTotalCount()}} Items</td>
+                            <td class="text-uppercase">Promotion code <span></span> applied for {{percentageDiscount}} %</td>
                             <td>{{discountedPrice() | currency}}</td>
                         </tr>
                         <tr>

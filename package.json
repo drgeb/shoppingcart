@@ -1,9 +1,9 @@
 {
-  "name": "angular-seed",
+  "name": "angular-shopping-cart",
   "private": true,
   "version": "0.0.0",
-  "description": "A starter project for AngularJS",
-  "repository": "https://github.com/angular/angular-seed",
+  "description": "An example project for shopping cart in AngularJS",
+  "repository": "https://github.com/denishvachhani/shoppingcart",
   "license": "MIT",
   "devDependencies": {
     "bower": "^1.7.7",
